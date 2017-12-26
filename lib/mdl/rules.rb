@@ -265,9 +265,9 @@ rule "MD022", "Headers should be surrounded by blank lines" do
         header_bad = true
       end
       # Check next line
-      next_line_idx = doc.header_style(h) == :setext ? linenum + 1 : linenum
-      next_line = doc.lines[next_line_idx]
-      header_bad = true if not next_line.nil? and not next_line.empty?
+      #next_line_idx = doc.header_style(h) == :setext ? linenum + 1 : linenum
+      #next_line = doc.lines[next_line_idx]
+      #header_bad = true if not next_line.nil? and not next_line.empty?
       errors << linenum if header_bad
     end
     # Kramdown requires that headers start on a block boundary, so in most
@@ -617,5 +617,28 @@ rule "MD041", "First line in file should be a top level header" do
     first_header = doc.find_type(:header).first
     [1] if first_header.nil? or first_header[:location] != 1 \
       or first_header[:level] != params[:level]
+  end
+end
+
+rule "MD042", "Images should be surrounded by blank lines" do
+  tags :images, :blank_lines
+  aliases 'blanks-around-images'
+  check do |doc|
+    errors = []
+    doc.find_type_elements(:img).each do |img|
+      img_bad = false
+      line = doc.element_line(img)
+      next if not line.strip().start_with?("![")
+      linenum = doc.element_linenumber(img)
+      # Check previous line
+      if linenum > 1 and not doc.lines[linenum - 2].empty?
+        img_bad = true
+      end
+      # Check next line
+      next_line = doc.lines[linenum]
+      img_bad = true if not next_line.nil? and not next_line.empty?
+      errors << linenum if img_bad
+    end
+    errors.sort
   end
 end
