@@ -656,3 +656,14 @@ rule "MD043", "Code block line length" do
     overlines & codeblock_lines
   end
 end
+
+rule "MD044", "Use 'bash' instead of 'shell' as the language type of a code block" do
+  tags :code, :language
+  aliases 'fenced-sh-language-type'
+  check do |doc|
+    # Kramdown parses code blocks with language settings as code blocks with
+    # the class attribute set to language-languagename.
+    doc.element_linenumbers(doc.find_type_elements(:codeblock).select{|i|
+      i.options[:lang].to_s.start_with?("shell")})
+  end
+end
