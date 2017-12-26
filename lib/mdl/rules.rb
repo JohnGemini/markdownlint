@@ -190,7 +190,7 @@ rule "MD013", "Line length" do
       |(l, e), i| (i + 1 < locations.size ?
                    (l..locations[i+1].first - 1) :
                    (l..doc.lines.count)).to_a if e.type == :table }.flatten
-    overlines = doc.matching_lines(/^.{#{@params[:line_length]}}.*\s/)
+    overlines = doc.matching_lines(/^.{#{@params[:line_length]}}.*/)
     overlines -= codeblock_lines unless params[:code_blocks]
     overlines -= table_lines unless params[:tables]
     overlines
