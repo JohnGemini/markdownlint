@@ -642,3 +642,17 @@ rule "MD042", "Images should be surrounded by blank lines" do
     errors.sort
   end
 end
+
+rule "MD043", "Code block line length" do
+  tags :line_length
+  aliases 'code-block-line-length'
+  params :line_length => 80
+  check do |doc|
+    # Every line in the document that is part of a code block.
+    codeblock_lines = doc.find_type_elements(:codeblock).map{
+      |e| (doc.element_linenumber(e)..
+           doc.element_linenumber(e) + e.value.lines.count).to_a }.flatten
+    overlines = doc.matching_lines(/^.{#{@params[:line_length]}}.*/)
+    overlines & codeblock_lines
+  end
+end
