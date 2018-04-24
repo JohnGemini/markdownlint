@@ -27,6 +27,26 @@ Note that you will need [rake](https://github.com/ruby/rake)
 (`gem install rake`) and [bundler](https://github.com/bundler/bundler)
 (`gem install bundler`) in order to build from source.
 
+If you got error messages like:
+
+    rake aborted!
+    Couldn't install gem, run `gem install
+    /root/markdownlint/pkg/mdl-0.4.0.gem' for more detailed output
+
+    Tasks: TOP => install
+    (See full trace by running task with --trace)
+
+Please install the following packages with specific version by yourself
+
+- bundler (default: 1.16.0)
+- coderay (1.1.2)
+- kramdown (1.14.0)
+- method_source (0.9.0)
+- mixlib-cli (1.7.0)
+- mixlib-config (2.2.4)
+- pry (0.11.3)
+- rake (12.2.1)
+
 ## Usage
 
 To have markdownlint check your markdown files, simply run `mdl` with the
